@@ -81,6 +81,12 @@ int alocarGrandes (char matriz[10][10], int x, int y, int direcao, int tamanho) 
 void alocar(char matriz[10][10]){
     int n[4];
     n[0] = 1, n[1] = 2, n[2] = 3, n[3] = 4;
+    //inicializar a matriz com '-'
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            matriz[i][j] = '-';
+        }
+    }
 
     int loop = n[0] + n[1] + n[2] + n[3];
     while(loop > 0) {
