@@ -253,7 +253,8 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
             base2[i][j] = '-';
         }
     }
-    while(acertos1 != 20 || acertos2 != 20){
+    while((acertos1 < 20) && (acertos2 < 20)){
+        int tiro1 = 0;
         printf("0 - erros    X - acertos em navios");
         printf("\n\nTabuleiro jogador 1:        Tabuleiro jogador 2:\n");
         for(int i = 0; i < 10; i++){
@@ -269,19 +270,43 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
 
         printf("\nJogador 1 atira em Jogador 2, atirar em qual linha e coluna? respectivamente\n");
         scanf("%d %d", &x, &y);
-        acertos2 += atirar(matriz2, base2, x, y);
+        tiro1 = atirar(matriz2, base2, x, y);
+        while(tiro1 == 1) {
+            acertos2 += tiro1;
+            tiro1 = 0;
+
+            printf("\nJogador 1 Acertou! Jogue Novamente!");
+            printf("\nJogador 1 atira em Jogador 2, atirar em qual linha e coluna? respectivamente\n");
+
+            scanf("%d %d", &x, &y);
+            if(atirar(matriz2, base2, x, y)){
+                tiro1++;
+            }
+        }
         
         printf("Jogador 2 atira em Jogador 1, atirar em qual linha e coluna? respectivamente\n");
         scanf("%d %d", &x, &y);
-        acertos1 += atirar(matriz1, base1, x, y);
+        tiro 2= atirar(matriz1, base1, x, y);
+        while(tiro2 == 1) {
+            acertos2 += tiro1;
+            tiro2 = 0;
+            
+            printf("\nJogador 1 Acertou! Jogue Novamente!");
+            printf("\nJogador 1 atira em Jogador 2, atirar em qual linha e coluna? respectivamente\n");
 
-        printf("\n\njogador1: %d acertos \njogador2: %d acertos\n\n", acertos1, acertos2);
+            scanf("%d %d", &x, &y);
+            if(atirar(matriz1, base1, x, y)){
+                tiro2++;
+            }
+        }
+
+        printf("\n\njogador2: %d acertos \njogador1: %d acertos\n\n", acertos1, acertos2);
     }
 
     if(acertos2 == 20) {
-        printf("\nO jogador 1 Venceu!\n");
-    } else {
         printf("\nO jogador 2 Venceu!\n");
+    } else {
+        printf("\nO jogador 1 Venceu!\n");
     }  
 }
 
