@@ -1,41 +1,28 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 //Funções a serem utilizadas
-void alocar(char matriz[10][10]); //chamada para receber as coordenadas e o navio a ser alocado
+void alocar(char matriz[10][10], int player); //chamada para receber as coordenadas e o navio a ser alocado
 int alocarGrandes (char matriz[10][10], int x, int y, int direcao, int tamanho); //alocar um navio em uma coordenada específica
 void Iniciar(char matriz1[10][10], char matriz2[10][10]); //Função para iniciar o jogo
-int atirar(char matriz[10][10], int x, int y); // Função para pegar coordenadas e matriz a ser comparada
+int atirar(char matriz[10][10], char base[10][10], int x, int y); // Função para pegar coordenadas e matriz a ser comparada
 
 int main() {
     printf("\n--------- Batalha Naval ---------\n\n");
     int i, j;
     char P1[10][10]; char P2[10][10];
 
-    //inicializar a matriz com '-'
     for(i = 0; i < 10; i++){
-        for(j = 0; j < 10; j++){
-            P1[i][j] = '-';
-            P2[i][j] = '-';
+        for (j = 0; j < 10; j++){
+            P1[i][j] = 1;
+            P2[i][j] = 1;
         }
     }
 
     int escolha;
     bool ficar = true;
     while(ficar){
-    
-    //Mostrar as matrizes dos dois jogadores:
-    printf("\n");
-    for(i = 0; i < 10; i++){
-        for(j = 0; j < 10; j++){
-            printf("%c ",P1[i][j]);
-        }
-        printf("        ");
-        for(j = 0; j < 10; j++){
-            printf("%c ", P2[i][j]);
-        }
-        printf("\n");
-    }
 
     printf("\n   Menu do Jogo:\n\n1 - Alocar Navios\n2 - Iniciar o Jogo\n3 - Sair do Jogo\n");
     printf("Selecione uma opcao: ");
@@ -48,14 +35,21 @@ int main() {
             printf("Alocar navio de qual jogador? 1 ou 2: ");
             scanf("%d", &player);
             if(player == 2) {
-                alocar(P2);
+                alocar(P2, player);
             }
             if(player == 1) {
-                alocar(P1);
+                alocar(P1, player);
             }
+            system("cls");
+            printf("****  Tabuleiro do jogador %d alocado! ****\n\n", player);
             break;
         case 2:
-            Iniciar(P1, P2);
+            if(P1[0][0] != 1 && P2[0][0] != 1){
+                Iniciar(P1, P2);
+            } else {
+                printf("\n*** Nao foi possivel iniciar o jogo ***\nCada jogador deve ter seu tabuleiro feito!\n");
+            }
+            
             break;
         case 3:
             ficar = false;
@@ -70,7 +64,7 @@ int main() {
 
 // função pegar coordenadas que o usuario quer alocar
 // alocar submarinos na matriz
-void alocar(char matriz[10][10]){
+void alocar(char matriz[10][10], int player){
     int n[4];
     n[0] = 1, n[1] = 2, n[2] = 3, n[3] = 4;
     //inicializar a matriz com '-' caso o usuario queira realocar novamente
@@ -82,7 +76,7 @@ void alocar(char matriz[10][10]){
 
     int loop = n[0] + n[1] + n[2] + n[3];
     while(loop > 0) {
-        printf("\n\n");
+        printf("\nMatriz do jogador %d\n\n", player);
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
             printf("%c ",matriz[i][j]);
@@ -249,27 +243,37 @@ int alocarGrandes (char matriz[10][10], int x, int y, int direcao, int tamanho) 
 }
 
 void Iniciar(char matriz1[10][10], char matriz2[10][10]){
+    system("cls");
     int acertos1 = 0, acertos2 = 0, x, y;
+
+    char base1[10][10], base2[10][10];
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            base1[i][j] = '-';
+            base2[i][j] = '-';
+        }
+    }
     while(acertos1 != 20 || acertos2 != 20){
-        printf("\n\n");
+        printf("0 - erros    X - acertos em navios");
+        printf("\n\nTabuleiro jogador 1:        Tabuleiro jogador 2:\n");
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
-                printf("%c ",matriz1[i][j]);
+                printf("%c ",base1[i][j]);
             }
             printf("        ");
             for(int j = 0; j < 10; j++){
-                printf("%c ", matriz2[i][j]);
+                printf("%c ", base2[i][j]);
             }
             printf("\n");
         }
 
         printf("\nJogador 1 atira em Jogador 2, atirar em qual linha e coluna? respectivamente\n");
         scanf("%d %d", &x, &y);
-        acertos2 += atirar(matriz2, x, y);
+        acertos2 += atirar(matriz2, base2, x, y);
         
         printf("Jogador 2 atira em Jogador 1, atirar em qual linha e coluna? respectivamente\n");
         scanf("%d %d", &x, &y);
-        acertos1 += atirar(matriz1, x, y);
+        acertos1 += atirar(matriz1, base1, x, y);
 
         printf("\n\njogador1: %d acertos \njogador2: %d acertos\n\n", acertos1, acertos2);
     }
@@ -281,12 +285,12 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
     }  
 }
 
-int atirar(char matriz[10][10], int x, int y){
+int atirar(char matriz[10][10], char base[10][10], int x, int y){
     if(matriz[x][y] == '-'){
-        matriz[x][y] = '0';
+        base[x][y] = '0';
         return 0;
     } else {
-        matriz[x][y] = 'X';
+        base[x][y] = 'X';
         return 1;
     }
     return 0;
