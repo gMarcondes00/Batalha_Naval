@@ -242,6 +242,7 @@ int alocarGrandes (char matriz[10][10], int x, int y, int direcao, int tamanho) 
     return 0;
 }
 
+//Iniciar o jogo
 void Iniciar(char matriz1[10][10], char matriz2[10][10]){
     system("cls");
     int acertos1 = 0, acertos2 = 0, x, y;
@@ -254,7 +255,7 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
         }
     }
     while((acertos1 < 20) && (acertos2 < 20)){
-        int tiro1 = 0;
+        int tiro1 = 0, tiro2 = 0;
         printf("0 - erros    X - acertos em navios");
         printf("\n\nTabuleiro jogador 1:        Tabuleiro jogador 2:\n");
         for(int i = 0; i < 10; i++){
@@ -286,7 +287,7 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
         
         printf("Jogador 2 atira em Jogador 1, atirar em qual linha e coluna? respectivamente\n");
         scanf("%d %d", &x, &y);
-        tiro 2= atirar(matriz1, base1, x, y);
+        tiro2 = atirar(matriz1, base1, x, y);
         while(tiro2 == 1) {
             acertos2 += tiro1;
             tiro2 = 0;
@@ -310,12 +311,14 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
     }  
 }
 
+//Atirar na matriz selecionada
 int atirar(char matriz[10][10], char base[10][10], int x, int y){
     if(matriz[x][y] == '-'){
         base[x][y] = '0';
         return 0;
     } else {
         base[x][y] = 'X';
+        matriz[x][y] = '-';
         return 1;
     }
     return 0;
