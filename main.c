@@ -273,7 +273,7 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
         scanf("%d %d", &x, &y);
         tiro1 = atirar(matriz2, base2, x, y);
         while(tiro1 == 1) {
-            acertos2 += tiro1;
+            acertos1 += tiro1;
             tiro1 = 0;
 
             printf("\nJogador 1 Acertou! Jogue Novamente!");
@@ -289,11 +289,11 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
         scanf("%d %d", &x, &y);
         tiro2 = atirar(matriz1, base1, x, y);
         while(tiro2 == 1) {
-            acertos2 += tiro1;
+            acertos2 += tiro2;
             tiro2 = 0;
             
-            printf("\nJogador 1 Acertou! Jogue Novamente!");
-            printf("\nJogador 1 atira em Jogador 2, atirar em qual linha e coluna? respectivamente\n");
+            printf("\nJogador 2 Acertou! Jogue Novamente!");
+            printf("\nJogador 2 atira em Jogador 1, atirar em qual linha e coluna? respectivamente\n");
 
             scanf("%d %d", &x, &y);
             if(atirar(matriz1, base1, x, y)){
@@ -301,7 +301,7 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
             }
         }
 
-        printf("\n\njogador2: %d acertos \njogador1: %d acertos\n\n", acertos1, acertos2);
+        printf("\n\njogador1: %d acertos \njogador2: %d acertos\n\n", acertos1, acertos2);
     }
 
     if(acertos2 == 20) {
