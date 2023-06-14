@@ -71,6 +71,12 @@ void alocar(char matriz[10][10], int player){
     for(int i = 0; i < 10; i++){
         for(int j = 0; j < 10; j++){
             matriz[i][j] = '-';
+            if(i == 0) {
+                matriz[i][j] = '0' + j;
+            }
+            if(j == 0) {
+                matriz[i][j] = '0' + i;
+            }  
         }
     }
 
@@ -256,7 +262,7 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
     }
     while((acertos1 < 20) && (acertos2 < 20)){
         int tiro1 = 0, tiro2 = 0;
-        printf("0 - erros    X - acertos em navios");
+        printf("A - erros    X - acertos em navios");
         printf("\n\nTabuleiro jogador 1:        Tabuleiro jogador 2:\n");
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
@@ -314,9 +320,10 @@ void Iniciar(char matriz1[10][10], char matriz2[10][10]){
 //Atirar na matriz selecionada
 int atirar(char matriz[10][10], char base[10][10], int x, int y){
     if(matriz[x][y] == '-'){
-        base[x][y] = '0';
+        base[x][y] = 'A';
         return 0;
-    } else {
+    } 
+    if(matriz[x][y] == 'S' || matriz[x][y] == 'C' || matriz[x][y] == 'N' || matriz[x][y] == 'P'){
         base[x][y] = 'X';
         matriz[x][y] = '-';
         return 1;
