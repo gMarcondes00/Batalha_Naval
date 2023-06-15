@@ -67,7 +67,8 @@ int main() {
 // alocar submarinos na matriz
 void alocar(char matriz[11][11], int player){
     int n[4];
-    n[0] = 1, n[1] = 2, n[2] = 3, n[3] = 4;
+    
+    n[0] = 1, n[1] = 2, n[2] = 3, n[3] =  4;
     //inicializar a matriz com '-' caso o usuario queira realocar novamente
     for(int i = 0; i < 11; i++){
         for(int j = 0; j < 11; j++){
@@ -115,7 +116,7 @@ void alocar(char matriz[11][11], int player){
                 printf("Em qual rotacao? Direita(0), Esquerda(1), Cima(2), Baixo(3)\n");
                 scanf("%d", &direcao);
 
-                if(n[0] > 0){
+                if(n[0] > 0 && (x > 0 && x < 11)){
                     sucesso = alocarGrandes(matriz, x, y, direcao, 4);
                     if(sucesso == 1) {
                     --n[0];
@@ -123,8 +124,8 @@ void alocar(char matriz[11][11], int player){
                     printf("\n\n** Alocado com sucesso **");
                     } else {
                     printf("\n\n** Falha ao alocar **");
+                    }
                 }
-                } 
 
                 break;
                 //navio-cargueiro
@@ -140,7 +141,7 @@ void alocar(char matriz[11][11], int player){
                 printf("Em qual rotacao? Direita(0), Esquerda(1), Cima(2), Baixo(3)\n");
                 scanf("%d", &direcao);
 
-                if(n[1] > 0){
+                if(n[1] > 0 && (x > 0 && x < 11)){
                     sucesso = alocarGrandes(matriz, x, y, direcao, 3);
                     if(sucesso == 1) {
                     --n[1];
@@ -164,7 +165,7 @@ void alocar(char matriz[11][11], int player){
                 printf("Em qual rotacao? Direita(0), Esquerda(1), Cima(2), Baixo(3)\n");
                 scanf("%d", &direcao);
 
-                if(n[2] > 0){
+                if(n[2] > 0 && (x > 0 && x < 11)){
                     sucesso = alocarGrandes(matriz, x, y, direcao, 2);
                     if(sucesso == 1) {
                         --n[2];
@@ -184,7 +185,7 @@ void alocar(char matriz[11][11], int player){
                 scanf("%s", &xChar);
 
                 x = xChar - 'A' + 1;
-                if(n[3] > 0 && matriz[x][y] == '-'){
+                if(n[3] > 0 && matriz[x][y] == '-' && (x > 0 && x < 11)){
                     --n[3];
                     --loop;
                     matriz[x][y] = 'S';
@@ -297,9 +298,9 @@ void Iniciar(char matriz1[11][11], char matriz2[11][11]){
             base2[0][0] = 0;
         }
     }
-    while((acertos1 < 20) && (acertos2 < 20)){
+    while((acertos1 <= 20) && (acertos2 <= 20)){
         int tiro1 = 0, tiro2 = 0;
-        printf("A - erros    X - acertos em navios");
+        printf("Z - erros    X - acertos em navios");
         printf("\n\nTabuleiro jogador 1:        Tabuleiro jogador 2:\n");
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
@@ -340,6 +341,9 @@ void Iniciar(char matriz1[11][11], char matriz2[11][11]){
         }
 
         printf("\n\njogador1: %d acertos \njogador2: %d acertos\n\n", acertos1, acertos2);
+        if(acertos1 == 20 || acertos2 == 20){
+            break;
+        }
     }
 
     if(acertos2 == 20) {
@@ -360,7 +364,9 @@ int tentar(char matriz[11][11], char base[11][11], int player){
     scanf("%s", xChar);
 
     x = xChar[0] - 'A' + 1;
+
     if(atirar(matriz, base, x, y)){
+        printf("\nVoce acertou! Jogue novamente!");
         return 1;
     }
 
@@ -375,7 +381,7 @@ int atirar(char matriz[11][11], char base[11][11], int x, int y){
     } 
     if(matriz[x][y] == 'S' || matriz[x][y] == 'C' || matriz[x][y] == 'N' || matriz[x][y] == 'P'){
         base[x][y] = 'X';
-        matriz[x][y] = '-';
+        matriz[x][y] = 'x';
         return 1;
     }
     return 0;
